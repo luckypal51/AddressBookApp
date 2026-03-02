@@ -20,14 +20,36 @@ public class AddressBookMain {
     			arr[1],arr[2],arr[3],arr[4],
     			Integer.parseInt(arr[5]), arr[6], arr[7]));
     }
-    
-    public static void main(String[] args ) throws IOException{
-    	BufferedReader read = new BufferedReader(new InputStreamReader(System.in));
-    	
-    	String line ;
-    	while((line=read.readLine())!=null) {
-    		add(line);
+    public static void update(String name ,String s) {
+    	String[] arr = s.split(":");
+    	if(arr.length!=8) {
+    		throw new IllegalArgumentException("Invalid Input");
     	}
+    	for(Contacts c: contacts) {
+    		if((name).equalsIgnoreCase(c.getFirstName()+" "+c.getLastName())) {
+    			c.setFirstName(arr[0]);
+    			c.setLastName(arr[1]);
+    			c.setAddress(arr[2]);
+    			c.setCity(arr[3]);
+    			c.setState(arr[4]);
+    			c.setZip(Integer.parseInt(arr[5]));
+    			c.setPhoneNo(arr[6]);
+    			c.setEmail(arr[7]);
+    			return;
+    		}
+    	}
+    	System.out.println("User Not Found ");
+    }
+    public static void main(String[] args ) throws IOException{
+      
+    	add("lucky:pal:berkhera:bhopal:MP:12345:83056144536:pallucky936@gmail.com");
+    	add("Himesh:kurmi:baisa:sagar:MP:462022:89564122121:himeshkurmi@gmail.com");
+    	add("nageshwar:patel:maiyar:katni:MP:11111:7845129654:nageshwar@gmail.com");
+    	for(Contacts c : contacts) {
+    		System.out.println(c.toString());
+    	}
+    	update("himesh kurmi","Himesh:kurmi:Anand Nager:Bhopal:MP:462022:89564122121:himeshkurmi@gmail.com ");
+    	System.out.println("\n");
     	for(Contacts c : contacts) {
     		System.out.println(c.toString());
     	}

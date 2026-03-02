@@ -1,8 +1,7 @@
 package com.addressBook.apps;
 
-import java.io.BufferedReader;
+
 import java.io.IOException;
-import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -16,15 +15,17 @@ public class AddressBookMain {
     	if(arr.length!=8) {
     		throw new IllegalArgumentException("Invalid Input");
     	}
+         Contacts con = new Contacts(arr[0],
+    			arr[1],arr[2],arr[3],arr[4],
+    			Integer.parseInt(arr[5]), arr[6], arr[7]);
+   
     	for(Contacts c : contacts) {// This helps to find if the person with input name already exists or not 
-    		if((c.getFirstName()+" "+c.getLastName()).equalsIgnoreCase(arr[0]+" "+arr[1])) { // Considering first and Last Name as identity 
+    		if(c.equals(con)) { // Override the equals method to check name  
     			System.out.println("The Name Already exist : "+c.getFirstName()+" "+c.getLastName());
     			return;
     		}
     	}
-    	contacts.add(new Contacts(arr[0],
-    			arr[1],arr[2],arr[3],arr[4],
-    			Integer.parseInt(arr[5]), arr[6], arr[7]));
+    	contacts.add(con);
     }
     public static void update(String name ,String s) {
     	String[] arr = s.split(":");

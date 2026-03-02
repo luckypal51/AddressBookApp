@@ -75,5 +75,14 @@ public class Contacts {
 				+ ", state=" + state + ", zip=" + zip + ", phoneNo=" + phoneNo + ", email=" + email + "]";
 	 }
      
-     
+	 //Override the equals method to compare full name
+    @Override
+    public boolean equals(Object obj) {
+    	if(this==obj) return true;
+        
+    	if(obj==null||this.getClass()!=obj.getClass()) return false;
+    	
+    	Contacts con = (Contacts) obj;
+    	return (getFirstName()+" "+getLastName()).equalsIgnoreCase(con.getFirstName()+" "+con.getLastName());
+    } 
 }

@@ -16,6 +16,12 @@ public class AddressBookMain {
     	if(arr.length!=8) {
     		throw new IllegalArgumentException("Invalid Input");
     	}
+    	for(Contacts c : contacts) {// This helps to find if the person with input name already exists or not 
+    		if((c.getFirstName()+" "+c.getLastName()).equalsIgnoreCase(arr[0]+" "+arr[1])) { // Considering first and Last Name as identity 
+    			System.out.println("The Name Already exist : "+c.getFirstName()+" "+c.getLastName());
+    			return;
+    		}
+    	}
     	contacts.add(new Contacts(arr[0],
     			arr[1],arr[2],arr[3],arr[4],
     			Integer.parseInt(arr[5]), arr[6], arr[7]));
@@ -55,6 +61,7 @@ public class AddressBookMain {
     	add("lucky:pal:berkhera:bhopal:MP:12345:83056144536:pallucky936@gmail.com");
     	add("Himesh:kurmi:baisa:sagar:MP:462022:89564122121:himeshkurmi@gmail.com");
     	add("nageshwar:patel:maiyar:katni:MP:11111:7845129654:nageshwar@gmail.com");
+    	add("lucky:pal:berkhera:bhopal:MP:12345:83056144536:pallucky936@gmail.com");
     	for(Contacts c : contacts) {
     		System.out.println(c.toString());
     	}

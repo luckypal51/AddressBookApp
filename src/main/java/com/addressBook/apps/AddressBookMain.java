@@ -57,6 +57,15 @@ public class AddressBookMain {
     	}
     	System.out.println("User Not Found");
     }
+    
+    public static List<Contacts> searchByCity(String city){
+    	return contacts.stream().filter(s->s.getCity().equalsIgnoreCase(city)).toList();
+    }
+    
+    public static List<Contacts> searchByState(String state){
+    	return contacts.stream().filter(s->s.getState().equalsIgnoreCase(state)).toList();
+    }
+    
     public static void main(String[] args ) throws IOException{
       
     	add("lucky:pal:berkhera:bhopal:MP:12345:83056144536:pallucky936@gmail.com");
@@ -66,7 +75,7 @@ public class AddressBookMain {
     	for(Contacts c : contacts) {
     		System.out.println(c.toString());
     	}
-    	update("himesh kurmi","Himesh:kurmi:Anand Nager:Bhopal:MP:462022:89564122121:himeshkurmi@gmail.com ");
+    	update("himesh kurmi","Himesh:kurmi:Anand Nager:Bhopal:MH:462022:89564122121:himeshkurmi@gmail.com ");
     	System.out.println("\n");
     	for(Contacts c : contacts) {
     		System.out.println(c.toString());
@@ -77,6 +86,14 @@ public class AddressBookMain {
     	for(Contacts c : contacts) {
     		System.out.println(c.toString());
     	}
+    	
+    	System.out.println("\n");
+    	
+    	System.out.println("Contacts search by city : "+searchByCity("bhopal").toString()); 
+    	
+    	System.out.println("\n");
+    	
+    	System.out.println("Contacts search by State : "+searchByState("Mh").toString());
     }
     
 }

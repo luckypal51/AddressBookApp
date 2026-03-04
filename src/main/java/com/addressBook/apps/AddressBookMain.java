@@ -118,11 +118,6 @@ public class AddressBookMain {
 		return ad.countByState();
 	}
 	
-	public static List<Contacts> sortedByName(String addressBookName){
-		addressBookName = addressBookName.toLowerCase();
-		AddressBook ad = addressBook.get(addressBookName);
-		return ad.sortByName();
-	}
     public static void main(String[] args ) throws IOException{
         addAddress("Book1");
         

@@ -1,0 +1,3 @@
+"Himesh","kurmi","Anand Nager","Bhopal","MH","462022","89564122121","himeshkurmi@gmail.com"
+"nageshwar","patel","maiyar","katni","MP","11111","7845129654","nageshwar@gmail.com"
+"lucky","pal","berkhera","bhopal","MP","12345","83056144536","pallucky936@gmail.com"

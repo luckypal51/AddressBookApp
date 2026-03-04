@@ -1,5 +1,7 @@
 package com.addressBook.apps;
 
+import java.io.FileOutputStream;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.HashMap;
@@ -208,5 +210,12 @@ public class AddressBook {
 	   
 	   public List<Contacts> sortByZipCode(){
 		   return contacts.stream().sorted(Comparator.comparing(Contacts::getZip)).toList();
+	   }
+	   
+	   public void writeInfile(String s) throws IOException{
+		   FileOutputStream file = new FileOutputStream(s);
+		  for(Contacts c: contacts) {
+			  file.write(c.toString().getBytes());
+		  }
 	   }
 }

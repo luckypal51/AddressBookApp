@@ -81,6 +81,28 @@ public class AddressBookMain {
 		AddressBook ad = addressBook.get(addressBookName);
 		return ad.getMapByState();
 	}
+	
+	public static List<Contacts>searchByCity(String city){
+		city = city.toLowerCase();
+		List<Contacts> list = new ArrayList<>();
+		for(var a : addressBook.entrySet()) {
+			if(a.getValue().getMapByCity().containsKey(city)) {
+				list.addAll(a.getValue().getMapByCity().get(city));
+			}
+		}
+		return list;
+	}
+	
+	public static List<Contacts> searchByState(String state){
+		state = state.toLowerCase();
+		List<Contacts> list = new ArrayList<>();
+		for(var a : addressBook.entrySet()) {
+			if(a.getValue().getMapByState().containsKey(state)) {
+				list.addAll(a.getValue().getMapByState().get(state));
+			}
+		}
+		return list;
+	}
     public static void main(String[] args ) throws IOException{
         addAddress("Book1");
         

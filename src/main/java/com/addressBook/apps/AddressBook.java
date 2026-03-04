@@ -193,5 +193,9 @@ public class AddressBook {
 	   public Map<String,Integer> countByState(){
 		   return mapByState.entrySet().stream().collect(Collectors.toMap(a->a.getKey(),a->a.getValue().size()));
 	   }
-	
+	   
+	   public List<Contacts> sortByName() {
+		   return contacts.stream().sorted(Comparator.comparing(Contacts::getFirstName).thenComparing(Comparator.comparing(Contacts::getLastName))).toList();
+	   }
+	   
 }

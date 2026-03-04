@@ -3,97 +3,111 @@ package com.addressBook.apps;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+import java.util.stream.Collector;
+import java.util.stream.Collectors;
 
 import com.addressBook.apps.model.Contacts;
 
 public class AddressBookMain {
-    private static List<Contacts> contacts = new ArrayList<>();    //Helps to add multiple person in the Address book App
-    
-    public static void add(String s) {
-    	String[] arr = s.split(":");
-    	if(arr.length!=8) {
-    		throw new IllegalArgumentException("Invalid Input");
-    	}
-         Contacts con = new Contacts(arr[0],
-    			arr[1],arr[2],arr[3],arr[4],
-    			Integer.parseInt(arr[5]), arr[6], arr[7]);
-   
-    	for(Contacts c : contacts) {// This helps to find if the person with input name already exists or not 
-    		if(c.equals(con)) { // Override the equals method to check name  
-    			System.out.println("The Name Already exist : "+c.getFirstName()+" "+c.getLastName());
-    			return;
-    		}
-    	}
-    	contacts.add(con);
-    }
-    public static void update(String name ,String s) {
-    	String[] arr = s.split(":");
-    	if(arr.length!=8) {
-    		throw new IllegalArgumentException("Invalid Input");
-    	}
-    	for(Contacts c: contacts) {
-    		if((name).equalsIgnoreCase(c.getFirstName()+" "+c.getLastName())) {
-    			c.setFirstName(arr[0]);
-    			c.setLastName(arr[1]);
-    			c.setAddress(arr[2]);
-    			c.setCity(arr[3]);
-    			c.setState(arr[4]);
-    			c.setZip(Integer.parseInt(arr[5]));
-    			c.setPhoneNo(arr[6]);
-    			c.setEmail(arr[7]);
-    			return;
-    		}
-    	}
-    	System.out.println("User Not Found ");
-    }
-    public static void delete(String name) {
-    	for(Contacts c: contacts) {
-    		if(name.equalsIgnoreCase(c.getFirstName()+" "+c.getLastName())) {
-    			System.out.println("Deleted contact : "+c.toString());
-    			contacts.remove(c);
-    			return;
-    		}
-    	}
-    	System.out.println("User Not Found");
-    }
-    
-    public static List<Contacts> searchByCity(String city){
-    	return contacts.stream().filter(s->s.getCity().equalsIgnoreCase(city)).toList();
-    }
-    
-    public static List<Contacts> searchByState(String state){
-    	return contacts.stream().filter(s->s.getState().equalsIgnoreCase(state)).toList();
-    }
-    
+	static Map<String,AddressBook> addressBook =new HashMap<>();
+	
+	public static void addAddress(String name) {
+		name = name.toLowerCase();
+		if(addressBook.containsKey(name)) {
+			System.out.println("AddressBook Already exists"); 
+			return;
+		}
+		AddressBook ad = new AddressBook(name);
+		addressBook.put(name, ad);
+	}
+	public static void addContacts(String addressBookName,String con) {
+		addressBookName = addressBookName.toLowerCase();
+		AddressBook ad = addressBook.get(addressBookName);
+		ad.add(con);
+	}
+	
+	public static  void updateContact(String addressBookName,String contactName,String s) {
+		addressBookName = addressBookName.toLowerCase();
+		AddressBook ad = addressBook.get(addressBookName);
+		ad.update(contactName, s);
+	}
+	
+	public static void deleteContact(String addressBookName,String contactName) {
+		addressBookName = addressBookName.toLowerCase();
+		AddressBook ad = addressBook.get(addressBookName);
+		ad.delete(contactName);
+	}
+	
+	public static List<Contacts> searchByCity(String addressBookName,String city){
+		addressBookName = addressBookName.toLowerCase();
+		AddressBook ad = addressBook.get(addressBookName);
+		return ad.searchByCity(city);
+	}
+	
+	public static List<Contacts> searchByState(String addressBookName,String state){
+		addressBookName = addressBookName.toLowerCase();
+		AddressBook ad = addressBook.get(addressBookName);
+		return ad.searchByState(state);
+	}
+	
+	public static Map<String,List<Contacts>> mapByCity(String addressBookName){
+		addressBookName = addressBookName.toLowerCase();
+		AddressBook ad = addressBook.get(addressBookName);
+		return ad.getMapByCity();
+	}
+	public static Map<String,List<Contacts>> mapByState(String addressBookName){
+		addressBookName = addressBookName.toLowerCase();
+		AddressBook ad = addressBook.get(addressBookName);
+		return ad.getMapByState();
+	}
+	
+	public static List<Contacts> viewContact(String addressBookName){
+		addressBookName = addressBookName.toLowerCase();
+		AddressBook ad = addressBook.get(addressBookName);
+		return ad.getContacts();
+	}
+	
+	public static Map<String,List<Contacts>> getMapByCity(String addressBookName){
+		addressBookName = addressBookName.toLowerCase();
+		AddressBook ad = addressBook.get(addressBookName);
+		return ad.getMapByCity();
+	}
+	
+	public static Map<String,List<Contacts>> getMapByState(String addressBookName){
+		addressBookName = addressBookName.toLowerCase();
+		AddressBook ad = addressBook.get(addressBookName);
+		return ad.getMapByState();
+	}
     public static void main(String[] args ) throws IOException{
-      
-    	add("lucky:pal:berkhera:bhopal:MP:12345:83056144536:pallucky936@gmail.com");
-    	add("Himesh:kurmi:baisa:sagar:MP:462022:89564122121:himeshkurmi@gmail.com");
-    	add("nageshwar:patel:maiyar:katni:MP:11111:7845129654:nageshwar@gmail.com");
-    	add("lucky:pal:berkhera:bhopal:MP:12345:83056144536:pallucky936@gmail.com");
-    	for(Contacts c : contacts) {
-    		System.out.println(c.toString());
-    	}
-    	update("himesh kurmi","Himesh:kurmi:Anand Nager:Bhopal:MH:462022:89564122121:himeshkurmi@gmail.com ");
-    	System.out.println("\n");
-    	for(Contacts c : contacts) {
-    		System.out.println(c.toString());
-    	}
-    	System.out.println("\n");
-    	delete("nageshwar patel");
-    	System.out.println("\n");
-    	for(Contacts c : contacts) {
-    		System.out.println(c.toString());
-    	}
-    	
-    	System.out.println("\n");
-    	
-    	System.out.println("Contacts search by city : "+searchByCity("bhopal").toString()); 
-    	
-    	System.out.println("\n");
-    	
-    	System.out.println("Contacts search by State : "+searchByState("Mh").toString());
+        addAddress("Book1");
+        
+        addContacts("Book1","lucky:pal:berkhera:bhopal:MP:12345:83056144536:pallucky936@gmail.com");
+        addContacts("Book1","Himesh:kurmi:baisa:sagar:MP:462022:89564122121:himeshkurmi@gmail.com");
+        addContacts("Book1", "nageshwar:patel:maiyar:katni:MP:11111:7845129654:nageshwar@gmail.com");
+        addContacts("Book1","lucky:pal:berkhera:bhopal:MP:12345:83056144536:pallucky936@gmail.com");
+        
+        System.out.println("\n");
+        System.out.println(viewContact("book1"));
+        System.out.println("\n");
+        
+        updateContact("Book1","Himesh kurmi", "Himesh:kurmi:Anand Nager:Bhopal:MH:462022:89564122121:himeshkurmi@gmail.com");
+        System.out.println("\n");
+        System.out.println(viewContact("book1"));
+        System.out.println("\n");
+        
+        deleteContact("book1", "lucky pal");
+        
+        System.out.println("\n");
+        System.out.println(viewContact("book1"));
+        System.out.println("\n");
+        
+        System.out.println("MapByCity : "+getMapByCity("book1"));
+        System.out.println("\n");
+        System.out.println("MapByState : "+getMapByState("Book1"));
+        
     }
     
 }

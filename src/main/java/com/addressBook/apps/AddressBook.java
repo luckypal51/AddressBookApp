@@ -380,5 +380,21 @@ public class AddressBook {
 		   }
 	   write.close();
 	   }
-	 
+	   public void readJsonFile(String path) throws Exception{
+		   Gson gson = new Gson();
+		   FileReader read = new FileReader(path);
+		   Contacts[] contact = gson.fromJson(read,Contacts[].class);
+		   read.close();
+		   for(Contacts c: contact) {
+			   add(c);
+		   }
+	   }
+	   
+	   public void writeJsonFile(String path) throws Exception{
+		   Gson gson = new Gson();
+		   FileWriter write = new FileWriter(path);
+		   gson.toJson(contacts,write);
+		   write.close();
+	   }
+	  
 }

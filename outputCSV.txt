@@ -1,3 +1,5 @@
 "Himesh","kurmi","Anand Nager","Bhopal","MH","462022","89564122121","himeshkurmi@gmail.com"
 "nageshwar","patel","maiyar","katni","MP","11111","7845129654","nageshwar@gmail.com"
-"lucky","pal","berkhera","bhopal","MP","12345","83056144536","pallucky936@gmail.com"
+"Lucky","Pal","Berkhera","Bhopal","MP","462022","8305614453","luckypal@gmail.com"
+"Rahul","Sharma","Indrapuri","Bhopal","MP","462023","9123456789","rahulsharma@gmail.com"
+"Priya","Verma","Civil Lines","Jabalpur","MP","482001","9876543210","priyaverma@gmail.com"

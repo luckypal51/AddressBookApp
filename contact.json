@@ -1,0 +1,52 @@
+[
+  {
+    "firstName": "Lucky",
+    "lastName": "Pal",
+    "address": "Berkhera",
+    "city": "Bhopal",
+    "state": "MP",
+    "zip": 462022,
+    "phoneNo": "8305614453",
+    "email": "luckypal@gmail.com"
+  },
+  {
+    "firstName": "Himesh",
+    "lastName": "Kurmi",
+    "address": "Baisa",
+    "city": "Sagar",
+    "state": "MP",
+    "zip": 470001,
+    "phoneNo": "8956412212",
+    "email": "himeshkurmi@gmail.com"
+  },
+  {
+    "firstName": "Nageshwar",
+    "lastName": "Patel",
+    "address": "Maiyar",
+    "city": "Katni",
+    "state": "MP",
+    "zip": 483501,
+    "phoneNo": "7845129654",
+    "email": "nageshwarpatel@gmail.com"
+  },
+  {
+    "firstName": "Rahul",
+    "lastName": "Sharma",
+    "address": "Indrapuri",
+    "city": "Bhopal",
+    "state": "MP",
+    "zip": 462023,
+    "phoneNo": "9123456789",
+    "email": "rahulsharma@gmail.com"
+  },
+  {
+    "firstName": "Priya",
+    "lastName": "Verma",
+    "address": "Civil Lines",
+    "city": "Jabalpur",
+    "state": "MP",
+    "zip": 482001,
+    "phoneNo": "9876543210",
+    "email": "priyaverma@gmail.com"
+  }
+]

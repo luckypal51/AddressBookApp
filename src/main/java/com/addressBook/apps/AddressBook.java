@@ -14,6 +14,7 @@ import java.util.stream.Collector;
 import java.util.stream.Collectors;
 
 import com.addressBook.apps.model.Contacts;
+import com.google.gson.Gson;
 import com.opencsv.CSVReader;
 import com.opencsv.CSVWriter;
 
@@ -67,6 +68,41 @@ public class AddressBook {
 	         Contacts con = new Contacts(arr[0],
 	    			arr[1],arr[2],arr[3],arr[4],
 	    			Integer.parseInt(arr[5]), arr[6], arr[7]);
+	         String key = (con.getFirstName()+" "+con.getLastName()).toLowerCase();
+	         if(mapByName.containsKey(key)) {
+	        	 System.out.println("Name already exits : "+con.getFirstName()+" "+con.getLastName());
+	        	 return;
+	         }
+	         
+	         
+	    	contacts.add(con);
+	    	
+	    	
+	    	mapByName.put(key,con);
+	    	
+	    	key = con.getCity().toLowerCase();
+	    	if(mapByCity.containsKey(key)) {
+	    		List<Contacts> city = mapByCity.get(key);
+	    		city.add(con);
+	    		mapByCity.put(key,city);
+	    	}else {
+	    		List<Contacts> city = new ArrayList<>();
+	    		city.add(con);
+	    		mapByCity.put(key,city);
+	    	}
+	    	key = con.getState().toLowerCase();
+	    	if(mapByState.containsKey(key)) {
+	    		List<Contacts> state = mapByState.get(key);
+	    		state.add(con);
+	    		mapByState.put(key,state);
+	    	}else {
+	    		List<Contacts> state = new ArrayList<>();
+	    		state.add(con);
+	    		mapByState.put(key,state);
+	    	}
+	    }
+		
+		public  void add(Contacts con) {
 	         String key = (con.getFirstName()+" "+con.getLastName()).toLowerCase();
 	         if(mapByName.containsKey(key)) {
 	        	 System.out.println("Name already exits : "+con.getFirstName()+" "+con.getLastName());
@@ -344,5 +380,5 @@ public class AddressBook {
 		   }
 	   write.close();
 	   }
-	  
+	 
 }

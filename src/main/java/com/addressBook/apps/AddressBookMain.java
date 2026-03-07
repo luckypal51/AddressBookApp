@@ -30,59 +30,99 @@ public class AddressBookMain {
 	}
 	public static void addContacts(String addressBookName,String con) {
 		addressBookName = addressBookName.toLowerCase();
+		if(!addressBook.containsKey(addressBookName)) {
+			System.out.println("The Address Book Does not exists :");
+			return ;
+		}
 		AddressBook ad = addressBook.get(addressBookName);
 		ad.add(con);
 	}
 	
 	public static  void updateContact(String addressBookName,String contactName,String s) {
 		addressBookName = addressBookName.toLowerCase();
+		if(!addressBook.containsKey(addressBookName)) {
+			System.out.println("The Address Book Does not exists :");
+			return;
+		}
 		AddressBook ad = addressBook.get(addressBookName);
 		ad.update(contactName, s);
 	}
 	
 	public static void deleteContact(String addressBookName,String contactName) {
 		addressBookName = addressBookName.toLowerCase();
+		if(!addressBook.containsKey(addressBookName)) {
+			System.out.println("The Address Book Does not exists :");
+			return;
+		}
 		AddressBook ad = addressBook.get(addressBookName);
 		ad.delete(contactName);
 	}
 	
 	public static List<Contacts> searchByCity(String addressBookName,String city){
 		addressBookName = addressBookName.toLowerCase();
+		if(!addressBook.containsKey(addressBookName)) {
+			System.out.println("The Address Book Does not exists :");
+			return null;
+		}
 		AddressBook ad = addressBook.get(addressBookName);
 		return ad.searchByCity(city);
 	}
 	
 	public static List<Contacts> searchByState(String addressBookName,String state){
 		addressBookName = addressBookName.toLowerCase();
+		if(!addressBook.containsKey(addressBookName)) {
+			System.out.println("The Address Book Does not exists :");
+			return null;
+		}
 		AddressBook ad = addressBook.get(addressBookName);
 		return ad.searchByState(state);
 	}
 	
 	public static Map<String,List<Contacts>> mapByCity(String addressBookName){
 		addressBookName = addressBookName.toLowerCase();
+		if(!addressBook.containsKey(addressBookName)) {
+			System.out.println("The Address Book Does not exists :");
+			return null;
+		}
 		AddressBook ad = addressBook.get(addressBookName);
 		return ad.getMapByCity();
 	}
 	public static Map<String,List<Contacts>> mapByState(String addressBookName){
 		addressBookName = addressBookName.toLowerCase();
+		if(!addressBook.containsKey(addressBookName)) {
+			System.out.println("The Address Book Does not exists :");
+			return null;
+		}
 		AddressBook ad = addressBook.get(addressBookName);
 		return ad.getMapByState();
 	}
 	
 	public static List<Contacts> viewContact(String addressBookName){
 		addressBookName = addressBookName.toLowerCase();
+		if(!addressBook.containsKey(addressBookName)) {
+			System.out.println("The Address Book Does not exists :");
+			return null;
+		}
 		AddressBook ad = addressBook.get(addressBookName);
 		return ad.getContacts();
 	}
 	
 	public static Map<String,List<Contacts>> getMapByCity(String addressBookName){
 		addressBookName = addressBookName.toLowerCase();
+		if(!addressBook.containsKey(addressBookName)) {
+			System.out.println("The Address Book Does not exists :");
+			return null;
+		}
 		AddressBook ad = addressBook.get(addressBookName);
 		return ad.getMapByCity();
 	}
 	
 	public static Map<String,List<Contacts>> getMapByState(String addressBookName){
 		addressBookName = addressBookName.toLowerCase();
+		if(!addressBook.containsKey(addressBookName)) {
+			System.out.println("The Address Book Does not exists :");
+			return null;
+		}
 		AddressBook ad = addressBook.get(addressBookName);
 		return ad.getMapByState();
 	}
@@ -111,6 +151,10 @@ public class AddressBookMain {
 	
 	public static Map<String,Integer> countByCity(String addressBookName){
 		addressBookName = addressBookName.toLowerCase();
+		if(!addressBook.containsKey(addressBookName)) {
+			System.out.println("The Address Book Does not exists :");
+			return null;
+		}
 		AddressBook ad = addressBook.get(addressBookName);
 		
 		return ad.countByCity();
@@ -118,30 +162,50 @@ public class AddressBookMain {
 	
 	public static Map<String,Integer> countByState(String addressBookName){
 		addressBookName = addressBookName.toLowerCase();
+		if(!addressBook.containsKey(addressBookName)) {
+			System.out.println("The Address Book Does not exists :");
+			return null;
+		}
 		AddressBook ad = addressBook.get(addressBookName);
 		
 		return ad.countByState();
 	}
 	public static List<Contacts> sortByName(String addressBookName){
 		addressBookName = addressBookName.toLowerCase();
+		if(!addressBook.containsKey(addressBookName)) {
+			System.out.println("The Address Book Does not exists :");
+			return null;
+		}
 		AddressBook ad = addressBook.get(addressBookName);
 		return ad.sortByName();
 	}
 	
 	public static List<Contacts> sortByCity(String addressBookName){
 		addressBookName = addressBookName.toLowerCase();
+		if(!addressBook.containsKey(addressBookName)) {
+			System.out.println("The Address Book Does not exists :");
+			return null;
+		}
 		AddressBook ad = addressBook.get(addressBookName);
 		return ad.sortByCity();
 	}
 	
 	public static List<Contacts> sortByState(String addressBookName){
 		addressBookName = addressBookName.toLowerCase();
+		if(!addressBook.containsKey(addressBookName)) {
+			System.out.println("The Address Book Does not exists :");
+			return null;
+		}
 		AddressBook ad = addressBook.get(addressBookName);
 		return ad.sortByState();
 	}
 	
 	public static List<Contacts> sortByZipCode(String addressBookName){
 		addressBookName = addressBookName.toLowerCase();
+		if(!addressBook.containsKey(addressBookName)) {
+			System.out.println("The Address Book Does not exists :");
+			return null;
+		}
 		AddressBook ad = addressBook.get(addressBookName);
 		return ad.sortByZipCode();
 	}
@@ -173,55 +237,56 @@ public class AddressBookMain {
 	}
 	public static void writeJSONFile(String addressBookName,String path) throws Exception{
 		addressBookName = addressBookName.toLowerCase();
+		if(!addressBook.containsKey(addressBookName)) {
+			System.out.println("The Address Book Does not exists :");
+			return ;
+		}
 		AddressBook ad = addressBook.get(addressBookName);
 		ad.writeJsonFile(path);
+	}
+	public static List<Contacts> getAllContacts(String addressBookName){
+		try {
+			addressBookName = addressBookName.toLowerCase();
+			if(!addressBook.containsKey(addressBookName)) {
+				System.out.println("The Address Book Does not exists :");
+				return null;
+			}
+			AddressBook ad = addressBook.get(addressBookName);
+			return ad.getAllRecordsFromDatabase();
+		}catch(Exception e) {
+			System.out.println(e.getMessage());
+		}
+		return null;
 	}
     public static void main(String[] args ) throws Exception{
       
         
-        BufferedReader read = new BufferedReader(new FileReader("input.txt"));
-        
-        String addresBookName = "book1";
-        addAddress(addresBookName);
-        String line;
-        while((line=read.readLine())!=null) {
-        	addContacts(addresBookName,line);
+        BufferedReader read = new BufferedReader(new InputStreamReader(System.in));
+        while(true) {
+        	System.out.println("Enter 1 to Add addressBook : ");
+        	System.out.println("Enter 2 to Add Contacts    : ");
+        	System.out.println("Enter 3 to view Contacts in database : ");
+        	int a = Integer.parseInt(read.readLine());
+        	if(a==1) {
+        		System.out.println("Enter Address Book Name : ");
+        		String s = read.readLine();
+        		addAddress(s);
+        	}else if(a==2) {
+        		System.out.println("Enter AddressBook Name : ");
+        		String adBook = read.readLine();
+        		System.out.println("Enter Contacts Detail as [first_name,last_name,address,city,state,zip,phone_no,email]");
+        		String s = read.readLine();
+        	    addContacts(adBook, s);
+        	}else if(a==3) {
+        		System.out.println("Enter AddressBook Name : ");
+        		String addBook = read.readLine();
+        	    for(Contacts c: getAllContacts(addBook)) {
+        	    	System.out.println(c.toString());
+        	    }
+        	}else {
+        		break;
+        	}
         }
-        System.out.println("\n");
-        System.out.println(viewContact("book1"));
-        System.out.println("\n");
-        
-        updateContact("Book1","Himesh kurmi", "Himesh:kurmi:Anand Nager:Bhopal:MH:462022:89564122121:himeshkurmi@gmail.com");
-        System.out.println("\n");
-        System.out.println(viewContact("book1"));
-        System.out.println("\n");
-        
-        deleteContact("book1", "lucky pal");
-        
-        System.out.println("\n");
-        System.out.println(viewContact("book1"));
-        System.out.println("\n");
-        
-        readJSONFile("Book1", "contact.json");
-        writeJSONFile("Book1","contactOutput.json");
-        
-        System.out.println("\nMapByCity : "+getMapByCity("book1"));
-        System.out.println("\n");
-        System.out.println("MapByState : "+getMapByState("Book1"));
-        
-        System.out.println("\nCount people in city addressBook 1 : "+countByCity("Book1")); 
-        System.out.println("\nCount people in state in addressBook 1 : "+countByState("Book1"));
-        
-        System.out.println("\nsorted by name : "+sortByName("Book1"));
-        System.out.println("\nsorted by city : "+sortByCity("book1"));
-        System.out.println("\nsorted by state: "+sortByState("Book1"));
-        System.out.println("\nsorted by zip  : "+sortByZipCode("book1"));
-        
-        writeFileData(addresBookName,"output.txt");
-        
-        readCSVFile("Book1","input.txt" );
-        writeCSVFile("book1", "outputCSV.txt");
-        
     }
     
 }

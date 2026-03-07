@@ -284,6 +284,7 @@ public class AddressBookMain {
         	    	System.out.println(c.toString());
         	    }
         	}else {
+        		System.out.println("Exited AddressBook application");
         		break;
         	}
         }

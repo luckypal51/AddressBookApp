@@ -4,6 +4,7 @@ import java.io.FileOutputStream;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Comparator;
@@ -368,7 +369,7 @@ public class AddressBook {
 	   public void writeInCsvFile(String path) throws Exception{
 		   CSVWriter write = new CSVWriter(new FileWriter(path));
 		   for(Contacts c: contacts) {
-			   String[] arr = new String[8];
+			   String[] arr = new String[9];
 			   arr[0] = c.getFirstName();
 			   arr[1] = c.getLastName();
 			   arr[2] = c.getAddress();
@@ -418,5 +419,13 @@ public class AddressBook {
 		  }catch(Exception e) {
 			  System.out.println(e.getMessage());
 		  }
+	  }
+	  public List<Contacts> findByDate(LocalDate date){
+		  try {
+			  return SQLOperation.getByDate(date);
+		  }catch(Exception e) {
+			  System.out.println(e.getMessage());
+		  }
+		  return null;
 	  }
 }

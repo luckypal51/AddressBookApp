@@ -1,5 +1,7 @@
 package com.addressBook.apps.model;
 
+import java.time.LocalDate;
+
 public class Contacts {
      private String firstName;
      private String lastName;
@@ -9,6 +11,7 @@ public class Contacts {
      private int zip;
      private String phoneNo;
      private String email;
+     private LocalDate date;
      public Contacts() {}
 	 public Contacts(String firstName, String lastName, String address, String city, String state, int zip,
 			String phoneNo, String email) {
@@ -21,6 +24,13 @@ public class Contacts {
 		this.zip = zip;
 		this.phoneNo = phoneNo;
 		this.email = email;
+		this.date = LocalDate.now();
+	 }
+	 public LocalDate getDate() {
+		return date;
+	}
+	 public void setDate(LocalDate date) {
+		 this.date = date;
 	 }
 	 public String getFirstName() {
 		 return firstName;
@@ -70,13 +80,15 @@ public class Contacts {
 	 public void setEmail(String email) {
 		 this.email = email;
 	 }
-	 @Override
-	 public String toString() {
-		return "Contacts [firstName=" + firstName + ", lastName=" + lastName + ", address=" + address + ", city=" + city
-				+ ", state=" + state + ", zip=" + zip + ", phoneNo=" + phoneNo + ", email=" + email + "]\n";
-	 }
+	
      
-	 //Override the equals method to compare full name
+	 @Override
+	public String toString() {
+		return "Contacts [firstName=" + firstName + ", lastName=" + lastName + ", address=" + address + ", city=" + city
+				+ ", state=" + state + ", zip=" + zip + ", phoneNo=" + phoneNo + ", email=" + email + ", date=" + date
+				+ "]";
+	}
+	//Override the equals method to compare full name
     @Override
     public boolean equals(Object obj) {
     	if(this==obj) return true;

@@ -7,6 +7,7 @@ import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -258,7 +259,15 @@ public class AddressBookMain {
 		}
 		return null;
 	}
-	
+	public static List<Contacts> getAllByDate(String addressBookName,LocalDate date){
+		addressBookName = addressBookName.toLowerCase();
+		if(!addressBook.containsKey(addressBookName)) {
+			System.out.println("The Address Book Does not exists :");
+			return null;
+		}
+		AddressBook ad = addressBook.get(addressBookName);
+		return ad.findByDate(date);
+	}
     public static void main(String[] args ) throws Exception{
       
         
@@ -267,7 +276,8 @@ public class AddressBookMain {
         	System.out.println("Enter 1 to Add addressBook : ");
         	System.out.println("Enter 2 to Add Contacts    : ");
         	System.out.println("Enter 3 to view Contacts in database : ");
-        	System.out.println("Enter 4 to Update Exiting details :");
+        	System.out.println("Enter 4 to Update Exiting details : ");
+        	System.out.println("Enter 5 to view Contacts by date : ");
         	int a = Integer.parseInt(read.readLine());
         	if(a==1) {
         		System.out.println("Enter Address Book Name : ");
@@ -293,6 +303,14 @@ public class AddressBookMain {
         		System.out.println("Enter Updated Details as [first_name,last_name,address,city,state,zip,phone_no,email]");
         		String detail = read.readLine();
         		updateContact(addressBookName, name,detail);
+        	}else if(a==5) {
+        		System.out.println("Enter AddressBook Name : ");
+        		String addressBookName = read.readLine();
+        		System.out.println("Enter date in (YYYY-MM-DD) : ");
+        		String date = read.readLine();
+        		  for(Contacts c: getAllByDate(addressBookName,LocalDate.parse(date))) {
+          	    	System.out.println(c.toString());
+          	    }
         	}else {
         		break;
         	}

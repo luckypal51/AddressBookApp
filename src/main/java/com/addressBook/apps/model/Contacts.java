@@ -9,6 +9,7 @@ public class Contacts {
      private int zip;
      private String phoneNo;
      private String email;
+     public Contacts() {}
 	 public Contacts(String firstName, String lastName, String address, String city, String state, int zip,
 			String phoneNo, String email) {
 		super();

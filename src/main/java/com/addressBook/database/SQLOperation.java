@@ -8,7 +8,9 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import com.addressBook.apps.model.Contacts;
 
@@ -101,4 +103,36 @@ public class SQLOperation {
     	  }
     	  return list;
       }
+      public static Map<String,Integer> countContactsByState() {
+    	  Map<String,Integer> map = new HashMap<>();
+
+    	    try {
+    	        Connection con = ConnectDatabase.getConnection();
+    	        String query = "SELECT state, COUNT(*) AS total_contacts FROM contacts GROUP BY state";
+    	        PreparedStatement ps = con.prepareStatement(query);
+    	        ResultSet rs = ps.executeQuery();
+    	        while(rs.next()) {
+    	            map.put(rs.getString("state"), rs.getInt("total_contacts"));
+    	        }
+    	    } catch(Exception e) {
+    	        e.printStackTrace();
+    	    }
+    	    return map;
+    	}
+      public static Map<String,Integer> countContactsByCity() {
+    	  Map<String,Integer> map = new HashMap<>();
+
+    	    try {
+    	        Connection con = ConnectDatabase.getConnection();
+    	        String query = "SELECT city, COUNT(*) AS total_contacts FROM contacts GROUP BY city";
+    	        PreparedStatement ps = con.prepareStatement(query);
+    	        ResultSet rs = ps.executeQuery();
+    	        while(rs.next()) {
+    	            map.put(rs.getString("city"), rs.getInt("total_contacts"));
+    	        }
+    	    } catch(Exception e) {
+    	        e.printStackTrace();
+    	    }
+    	    return map;
+    	}
 }

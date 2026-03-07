@@ -428,4 +428,11 @@ public class AddressBook {
 		  }
 		  return null;
 	  }
+	  
+	  public Map<String,Integer> getContactCountByCity(){
+		  return SQLOperation.countContactsByCity();
+	  }
+	  public Map<String,Integer> getContactCountByState(){
+		  return SQLOperation.countContactsByState();
+	  }
 }

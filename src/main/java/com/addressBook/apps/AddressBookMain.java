@@ -268,6 +268,24 @@ public class AddressBookMain {
 		AddressBook ad = addressBook.get(addressBookName);
 		return ad.findByDate(date);
 	}
+	public static Map<String,Integer> countContactByCity(String addressBookName){
+		addressBookName = addressBookName.toLowerCase();
+		if(!addressBook.containsKey(addressBookName)) {
+			System.out.println("The Address Book Does not exists :");
+			return null;
+		}
+		AddressBook ad = addressBook.get(addressBookName);
+		return ad.getContactCountByCity();
+	}
+	public static Map<String,Integer> countContactBySate(String addressBookName){
+		addressBookName = addressBookName.toLowerCase();
+		if(!addressBook.containsKey(addressBookName)) {
+			System.out.println("The Address Book Does not exists :");
+			return null;
+		}
+		AddressBook ad = addressBook.get(addressBookName);
+		return ad.getContactCountByState();
+	}
     public static void main(String[] args ) throws Exception{
       
         
@@ -278,6 +296,8 @@ public class AddressBookMain {
         	System.out.println("Enter 3 to view Contacts in database : ");
         	System.out.println("Enter 4 to Update Exiting details : ");
         	System.out.println("Enter 5 to view Contacts by date : ");
+        	System.out.println("Enter 6 to Count contact by city :");
+        	System.out.println("Enter 7 to Count contact by state :");
         	int a = Integer.parseInt(read.readLine());
         	if(a==1) {
         		System.out.println("Enter Address Book Name : ");
@@ -311,6 +331,15 @@ public class AddressBookMain {
         		  for(Contacts c: getAllByDate(addressBookName,LocalDate.parse(date))) {
           	    	System.out.println(c.toString());
           	    }
+        	}else if(a==6) {
+        		System.out.println("Enter AddressBook Name : ");
+        		String addresBookName = read.readLine();
+        		countContactByCity(addresBookName).forEach((k,v)->System.out.println(k+" - "+v));
+        		
+        	}else if(a==7) {
+        		System.out.println("Enter AddressBook Name : ");
+        		String addresBookName = read.readLine();
+        		countContactBySate(addresBookName).forEach((k,v)->System.out.println(k+" - "+v));
         	}else {
         		break;
         	}

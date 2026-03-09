@@ -7,6 +7,7 @@ import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.sql.SQLException;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -16,275 +17,51 @@ import java.util.stream.Collector;
 import java.util.stream.Collectors;
 
 import com.addressBook.apps.model.Contacts;
+import com.addressBook.database.SQLOperation;
 
 public class AddressBookMain {
-	static Map<String,AddressBook> addressBook =new HashMap<>();
-	
-	public static void addAddress(String name) {
-		name = name.toLowerCase();
-		if(addressBook.containsKey(name)) {
-			System.out.println("AddressBook Already exists"); 
+	public static Contacts pars( String s) {
+		String[] arr = s.split(",");
+    	if(arr.length!=8) {
+    		throw new IllegalArgumentException("Invalid Input");
+    	}
+         Contacts con = new Contacts(arr[0],
+    			arr[1],arr[2],arr[3],arr[4],
+    			Integer.parseInt(arr[5]), arr[6], arr[7]);
+         return con;
+	}
+	public static void addAddressBook(String s) {
+		if(!SQLOperation.isPresent(s)) {
+			SQLOperation.createTable(s);
 			return;
 		}
-		AddressBook ad = new AddressBook(name);
-		addressBook.put(name, ad);
+		System.out.println("Address Book Already exists : ");
 	}
-	public static void addContacts(String addressBookName,String con) {
-		addressBookName = addressBookName.toLowerCase();
-		if(!addressBook.containsKey(addressBookName)) {
-			System.out.println("The Address Book Does not exists :");
-			return ;
-		}
-		AddressBook ad = addressBook.get(addressBookName);
-		ad.add(con);
+	public static void addContacts(String addressBookName,String s) {
+		Contacts c = pars( s);
+		SQLOperation.add(c, addressBookName);
 	}
-	
-	public static  void updateContact(String addressBookName,String contactName,String s) {
-		addressBookName = addressBookName.toLowerCase();
-		if(!addressBook.containsKey(addressBookName)) {
-			System.out.println("The Address Book Does not exists :");
-			return;
-		}
-		AddressBook ad = addressBook.get(addressBookName);
-		ad.update(contactName, s);
+	public static void updateContacts(String addressBookName,String name, String s) {
+		Contacts con = pars(s);
+		SQLOperation.UpdateDetailInDatabase(addressBookName, name, con);
 	}
-	
-	public static void deleteContact(String addressBookName,String contactName) {
-		addressBookName = addressBookName.toLowerCase();
-		if(!addressBook.containsKey(addressBookName)) {
-			System.out.println("The Address Book Does not exists :");
-			return;
-		}
-		AddressBook ad = addressBook.get(addressBookName);
-		ad.delete(contactName);
+	public static List<Contacts> view(String addressBookName) throws Exception{
+		return SQLOperation.getAll(addressBookName);
 	}
-	
-	public static List<Contacts> searchByCity(String addressBookName,String city){
-		addressBookName = addressBookName.toLowerCase();
-		if(!addressBook.containsKey(addressBookName)) {
-			System.out.println("The Address Book Does not exists :");
-			return null;
-		}
-		AddressBook ad = addressBook.get(addressBookName);
-		return ad.searchByCity(city);
-	}
-	
-	public static List<Contacts> searchByState(String addressBookName,String state){
-		addressBookName = addressBookName.toLowerCase();
-		if(!addressBook.containsKey(addressBookName)) {
-			System.out.println("The Address Book Does not exists :");
-			return null;
-		}
-		AddressBook ad = addressBook.get(addressBookName);
-		return ad.searchByState(state);
-	}
-	
-	public static Map<String,List<Contacts>> mapByCity(String addressBookName){
-		addressBookName = addressBookName.toLowerCase();
-		if(!addressBook.containsKey(addressBookName)) {
-			System.out.println("The Address Book Does not exists :");
-			return null;
-		}
-		AddressBook ad = addressBook.get(addressBookName);
-		return ad.getMapByCity();
-	}
-	public static Map<String,List<Contacts>> mapByState(String addressBookName){
-		addressBookName = addressBookName.toLowerCase();
-		if(!addressBook.containsKey(addressBookName)) {
-			System.out.println("The Address Book Does not exists :");
-			return null;
-		}
-		AddressBook ad = addressBook.get(addressBookName);
-		return ad.getMapByState();
-	}
-	
-	public static List<Contacts> viewContact(String addressBookName){
-		addressBookName = addressBookName.toLowerCase();
-		if(!addressBook.containsKey(addressBookName)) {
-			System.out.println("The Address Book Does not exists :");
-			return null;
-		}
-		AddressBook ad = addressBook.get(addressBookName);
-		return ad.getContacts();
-	}
-	
-	public static Map<String,List<Contacts>> getMapByCity(String addressBookName){
-		addressBookName = addressBookName.toLowerCase();
-		if(!addressBook.containsKey(addressBookName)) {
-			System.out.println("The Address Book Does not exists :");
-			return null;
-		}
-		AddressBook ad = addressBook.get(addressBookName);
-		return ad.getMapByCity();
-	}
-	
-	public static Map<String,List<Contacts>> getMapByState(String addressBookName){
-		addressBookName = addressBookName.toLowerCase();
-		if(!addressBook.containsKey(addressBookName)) {
-			System.out.println("The Address Book Does not exists :");
-			return null;
-		}
-		AddressBook ad = addressBook.get(addressBookName);
-		return ad.getMapByState();
-	}
-	
-	public static List<Contacts>searchByCity(String city){
-		city = city.toLowerCase();
-		List<Contacts> list = new ArrayList<>();
-		for(var a : addressBook.entrySet()) {
-			if(a.getValue().getMapByCity().containsKey(city)) {
-				list.addAll(a.getValue().getMapByCity().get(city));
-			}
-		}
-		return list;
-	}
-	
-	public static List<Contacts> searchByState(String state){
-		state = state.toLowerCase();
-		List<Contacts> list = new ArrayList<>();
-		for(var a : addressBook.entrySet()) {
-			if(a.getValue().getMapByState().containsKey(state)) {
-				list.addAll(a.getValue().getMapByState().get(state));
-			}
-		}
-		return list;
-	}
-	
-	public static Map<String,Integer> countByCity(String addressBookName){
-		addressBookName = addressBookName.toLowerCase();
-		if(!addressBook.containsKey(addressBookName)) {
-			System.out.println("The Address Book Does not exists :");
-			return null;
-		}
-		AddressBook ad = addressBook.get(addressBookName);
-		
-		return ad.countByCity();
-	}
-	
-	public static Map<String,Integer> countByState(String addressBookName){
-		addressBookName = addressBookName.toLowerCase();
-		if(!addressBook.containsKey(addressBookName)) {
-			System.out.println("The Address Book Does not exists :");
-			return null;
-		}
-		AddressBook ad = addressBook.get(addressBookName);
-		
-		return ad.countByState();
-	}
-	public static List<Contacts> sortByName(String addressBookName){
-		addressBookName = addressBookName.toLowerCase();
-		if(!addressBook.containsKey(addressBookName)) {
-			System.out.println("The Address Book Does not exists :");
-			return null;
-		}
-		AddressBook ad = addressBook.get(addressBookName);
-		return ad.sortByName();
-	}
-	
-	public static List<Contacts> sortByCity(String addressBookName){
-		addressBookName = addressBookName.toLowerCase();
-		if(!addressBook.containsKey(addressBookName)) {
-			System.out.println("The Address Book Does not exists :");
-			return null;
-		}
-		AddressBook ad = addressBook.get(addressBookName);
-		return ad.sortByCity();
-	}
-	
-	public static List<Contacts> sortByState(String addressBookName){
-		addressBookName = addressBookName.toLowerCase();
-		if(!addressBook.containsKey(addressBookName)) {
-			System.out.println("The Address Book Does not exists :");
-			return null;
-		}
-		AddressBook ad = addressBook.get(addressBookName);
-		return ad.sortByState();
-	}
-	
-	public static List<Contacts> sortByZipCode(String addressBookName){
-		addressBookName = addressBookName.toLowerCase();
-		if(!addressBook.containsKey(addressBookName)) {
-			System.out.println("The Address Book Does not exists :");
-			return null;
-		}
-		AddressBook ad = addressBook.get(addressBookName);
-		return ad.sortByZipCode();
-	}
-	public static void writeFileData(String addressBookName,String path) {
-		addressBookName = addressBookName.toLowerCase();
-		AddressBook ad = addressBook.get(addressBookName);
+	public static List<Contacts> viewByDate(String addressBookName,String date){
 		try {
-			ad.writeInfile(path);
-		} catch (IOException e) {
-		   System.out.println("File unable to write");
-		}
-	}
-	
-	public static void readCSVFile(String addressBookName,String path) throws Exception{
-		addressBookName = addressBookName.toLowerCase();
-		AddressBook ad = addressBook.get(addressBookName);
-		ad.readCSVFile(path);
-	}
-	
-	public static void writeCSVFile(String addressBookName,String path) throws Exception{
-		addressBookName = addressBookName.toLowerCase();
-		AddressBook ad = addressBook.get(addressBookName);
-		ad.writeInCsvFile(path);
-	}
-	public static void readJSONFile(String addressBookName,String path) throws Exception{
-		addressBookName = addressBookName.toLowerCase();
-		AddressBook ad = addressBook.get(addressBookName);
-		ad.readJsonFile(path);
-	}
-	public static void writeJSONFile(String addressBookName,String path) throws Exception{
-		addressBookName = addressBookName.toLowerCase();
-		if(!addressBook.containsKey(addressBookName)) {
-			System.out.println("The Address Book Does not exists :");
-			return ;
-		}
-		AddressBook ad = addressBook.get(addressBookName);
-		ad.writeJsonFile(path);
-	}
-	public static List<Contacts> getAllContacts(String addressBookName){
-		try {
-			addressBookName = addressBookName.toLowerCase();
-			if(!addressBook.containsKey(addressBookName)) {
-				System.out.println("The Address Book Does not exists :");
-				return null;
-			}
-			AddressBook ad = addressBook.get(addressBookName);
-			return ad.getAllRecordsFromDatabase();
-		}catch(Exception e) {
-			System.out.println(e.getMessage());
+			return SQLOperation.getByDate(addressBookName,LocalDate.parse(date));
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
 		}
 		return null;
 	}
-	public static List<Contacts> getAllByDate(String addressBookName,LocalDate date){
-		addressBookName = addressBookName.toLowerCase();
-		if(!addressBook.containsKey(addressBookName)) {
-			System.out.println("The Address Book Does not exists :");
-			return null;
-		}
-		AddressBook ad = addressBook.get(addressBookName);
-		return ad.findByDate(date);
-	}
 	public static Map<String,Integer> countContactByCity(String addressBookName){
-		addressBookName = addressBookName.toLowerCase();
-		if(!addressBook.containsKey(addressBookName)) {
-			System.out.println("The Address Book Does not exists :");
-			return null;
-		}
-		AddressBook ad = addressBook.get(addressBookName);
-		return ad.getContactCountByCity();
+		return SQLOperation.countContactsByCity(addressBookName);
 	}
-	public static Map<String,Integer> countContactBySate(String addressBookName){
-		addressBookName = addressBookName.toLowerCase();
-		if(!addressBook.containsKey(addressBookName)) {
-			System.out.println("The Address Book Does not exists :");
-			return null;
-		}
-		AddressBook ad = addressBook.get(addressBookName);
-		return ad.getContactCountByState();
+	public static Map<String,Integer> countContactByState(String addressBookName){
+		return SQLOperation.countContactsByState(addressBookName);
 	}
     public static void main(String[] args ) throws Exception{
       
@@ -302,7 +79,7 @@ public class AddressBookMain {
         	if(a==1) {
         		System.out.println("Enter Address Book Name : ");
         		String s = read.readLine();
-        		addAddress(s);
+        		addAddressBook(s);
         	}else if(a==2) {
         		System.out.println("Enter AddressBook Name : ");
         		String adBook = read.readLine();
@@ -312,7 +89,7 @@ public class AddressBookMain {
         	}else if(a==3) {
         		System.out.println("Enter AddressBook Name : ");
         		String addBook = read.readLine();
-        	    for(Contacts c: getAllContacts(addBook)) {
+        	    for(Contacts c: view(addBook)) {
         	    	System.out.println(c.toString());
         	    }
         	}else if(a==4) {
@@ -322,24 +99,26 @@ public class AddressBookMain {
         		String name = read.readLine();
         		System.out.println("Enter Updated Details as [first_name,last_name,address,city,state,zip,phone_no,email]");
         		String detail = read.readLine();
-        		updateContact(addressBookName, name,detail);
+        		updateContacts(addressBookName, name, detail);
+        		
         	}else if(a==5) {
         		System.out.println("Enter AddressBook Name : ");
         		String addressBookName = read.readLine();
         		System.out.println("Enter date in (YYYY-MM-DD) : ");
         		String date = read.readLine();
-        		  for(Contacts c: getAllByDate(addressBookName,LocalDate.parse(date))) {
-          	    	System.out.println(c.toString());
-          	    }
+        		 for(Contacts c: viewByDate(addressBookName, date)) {
+         	    	System.out.println(c.toString());
+         	    }
+        		
         	}else if(a==6) {
         		System.out.println("Enter AddressBook Name : ");
         		String addresBookName = read.readLine();
-        		countContactByCity(addresBookName).forEach((k,v)->System.out.println(k+" - "+v));
+        		
         		
         	}else if(a==7) {
         		System.out.println("Enter AddressBook Name : ");
         		String addresBookName = read.readLine();
-        		countContactBySate(addresBookName).forEach((k,v)->System.out.println(k+" - "+v));
+        	
         	}else {
         		break;
         	}
